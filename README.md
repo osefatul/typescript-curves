@@ -5,14 +5,14 @@ Type is an easy way to refer to different properties + functions the value has. 
 ### Interface:
 `interface` in TS is use to define the structure of an object.
 
-`
+```typescript
 interface Todo {
     id: number;
     title: string;
     completed: boolean;
 }
 const todo = response.data as Todo;
-`
+```
 
 #### Type Annotations:
 We (developers) tell typescript what type of value a variable refer to.
