@@ -113,8 +113,8 @@ let colors = ['RED', 'GREEN', 'YELLOW'];
 let foundColor;
 
 for(let i of colors){
-    if(colors[i] === 'GREEN'){
-        foundColor = colors[i];
+    if(i === 'GREEN'){
+        foundColor = i;
     }
 }
 ```
@@ -396,9 +396,407 @@ In order to minimize the effort of re-writing the types for an array, objects or
 
 ```typescript
 //type alias
-type Drink = [string, boolean, number] = ["brown", true, 40]
+type Drink = [string, boolean, number]
 
 const pepsi: Drink = ["brown", true, 40]
 const coke: Drink = ["brown", false, 30]
 const tea: Drink = ["green", false, 0]
 ```
+
+## Interfaces
+It creates a new type, (like string, boolean and number and object), describing the property names and value types of an object. We also can call it a custom data type.
+
+suppose we have an object called oldCivic and a function called printVehicle:
+
+```typescript
+const oldCivic = {
+    name: "oldCivic",
+    year: 2014:
+    broken: true
+}
+
+const printVehicle = (vehicle:{name:string; year:number; broken:boolean}):void =>{
+    console.log(`Name: ${vehicle.name}`)
+    console.log(`year: ${vehicle.year}`)
+    console.log(`broken: ${vehicle.broken}`)
+}
+```
+
+There is no problem with the above code; however, the type annotation made the function parameters little more complicated and hard to read. Let's fix annotations with interfaces...
+
+### Fixing Annotations With Interfaces
+
+```typescript
+interface Vehicle {
+    name:string;
+    year:number;
+    broken:boolean;
+}
+
+const oldCivic = {
+    name: "civic",
+    year: 2000,
+    broken: true
+}
+
+const printVehicle = (vehicle: Vehicle):void =>{
+    console.log(`name: ${vehicle.name}`)
+    console.log(`year: ${vehicle.year}`)
+    console.log(`broken: ${vehicle.broken}`)
+}
+
+printVehicle(oldCivic)
+```
+
+Example: In this example we show how can we use function inside the interface.
+```typescript
+interface Vehicle {
+    name:string;
+    model:number;
+    broken:boolean;
+    year: Date;
+    summary(): string;
+}
+
+
+const oldCivic = {
+    name: "civic",
+    model: 2000,
+    year: new Date(),
+    broken: true,
+    summary(): string {
+        return `Name of the car is ${this.name}, model is: ${this.model}`
+    }
+}
+
+const printVehicle = (vehicle: Vehicle):void =>{
+    console.log(`summary: ${vehicle.summary()}`)
+    console.log(`year: ${vehicle.year}`)
+    console.log(`broken: ${vehicle.broken}`)
+}
+
+printVehicle(oldCivic)
+```
+
+Example: What if we only have use `summary()` in interface:
+
+```typescript
+interface Vehicle {
+    summary(): string;
+}
+
+
+const oldCivic = {
+    name: "civic",
+    model: 2000,
+    year: new Date(),
+    broken: true,
+    summary(): string {
+        return `Name of the car is ${this.name}, model is: ${this.model}`
+    }
+}
+
+const printVehicle = (vehicle: Vehicle):void =>{
+    console.log(`summary: ${vehicle.summary()}`)
+}
+
+printVehicle(oldCivic)
+```
+
+<p>
+This code works because the `printVehicle` function only used `summary()` which is used in interface and `oldCivic`.
+</p>
+
+But, if we use other properties of `oldCivic` it will give us warning as they are not used in the interface.
+
+```typescript
+interface Vehicle {
+    summary(): string;
+}
+
+
+const oldCivic = {
+    name: "civic",
+    model: 2000,
+    year: new Date(),
+    broken: true,
+    summary(): string {
+        return `Name of the car is ${this.name}, model is: ${this.model}`
+    }
+}
+
+const printVehicle = (vehicle: Vehicle):void =>{
+    console.log(`name: ${vehicle.name}`)
+    console.log(`model: ${vehicle.model}`)
+    console.log(`summary: ${vehicle.summary()}`)
+}
+
+printVehicle(oldCivic)
+```
+The error in the above code will be 
+`Property "name" and "mode" do not exist on the type Vehicle`
+
+### Reuse Interface
+In the above example it is not appropriate to name interface Vehicle where it only return summary. let us change it to something more reusable in the future with other functions as well.
+
+```typescript
+interface Reportable {
+    summary(): string;
+}
+
+
+const oldCivics = {
+    name: "civic",
+    model: 2000,
+    year: new Date(),
+    broken: true,
+    summary(): string {
+        return `Name: ${this.name} model is: ${this.model}`
+    }
+}
+
+
+const drink = {
+    name: "coffee", 
+    sugar: 40,
+    summary ():string {
+        return `My coffee has ${this.sugar} grams sugar`
+    }
+}
+
+
+const printSummary = (vehicle: Reportable):void =>{
+    console.log(`summary: ${vehicle.summary()}`)
+}
+
+printSummary(oldCivics)
+printSummary(drink)
+
+```
+
+We demonstrated in the above code how to use interface in a more generic terms as a reusable code syntax.
+
+### General Strategy for Reusable Code in TS
+* Create functions that accept arguments that are typed with interfaces.
+* Objects/Classes can decide to 'implement' a given interface to work with a function.
+
+
+## Classes in TS
+Blueprint to create an object with some fields(values) and methods(functions) to represent a 'thing'.
+
+### Methods
+example: methods in class...
+
+```typescript
+class Vehicle {
+    honk (): void{
+        console.log("beep")
+    }
+}
+
+const vehicle = new Vehicle ();
+vehicle.honk()
+```
+
+Example: using inheritance
+
+```typescript
+class Vehicle {
+    drive():void {
+        console.log("chugga chugga")
+    }
+
+    honk ():void {
+        console.log("beep")
+    }
+}
+
+
+class Car extends Vehicle {}
+
+const car = new Car ()
+car.honk()
+```
+
+### Class Method Modifiers
+#### Public
+This method can be called anywhere, anytime. By default all methods are public.
+
+#### Private
+This method can only be called by other methods in this `this` class.
+
+```typescript
+class Vehicle {
+    drive():void {
+        console.log("chugga chugga")
+    }
+
+    private honk ():void {
+        console.log("beep")
+    }
+
+    startDrivingProcess ():void {
+
+    }
+}
+
+const vehicle = new Vehicle();
+vehicle.honk(); //error because the method is private
+```
+
+we can use another method in the class to use honk() and then we will be able to call honk through that method.
+
+```typescript
+class Vehicle {
+    drive():void {
+        console.log("chugga chugga")
+    }
+
+    private honk ():void {
+        console.log("beep")
+    }
+
+    startDrivingProcess ():void {
+        this.honk()
+    }
+}
+
+const vehicle = new Vehicle();
+vehicle.startDrivingProcess(); 
+```
+
+
+#### Protected
+This method can be called by other methods in `this` class or other methods in child class.
+
+<p>Now, imagine we have a super class and a child class, what if we want to protect 
+the method inside the class and also wanted it to be exposed only to child classes. then we use protect modifiers
+</p>
+
+```typescript
+class Vehicle {
+    private drive():void {
+        console.log("Chugga chugga")
+    }
+    protected honk ():void {
+        console.log("beep")
+    }
+    
+    callHonkAndDrive ():void {
+        this.honk();
+        this.drive();
+    }
+}
+
+class Car extends Vehicle {
+    startDrivingProcess ():void {
+        this.honk();
+    }
+}
+
+const vehicle = new Vehicle ();
+const car = new Car();
+
+vehicle.callHonkAndDrive();
+
+//car can call honk through callHonk() or startDrivingProcess()
+car.startDrivingProcess();
+car.callHonkAndDrive();
+```
+
+
+### Fields (Variables) in Class
+
+
+Example1: 
+```typescript
+class Vehicle {
+    color:string = "white";
+    redColor:string = "red";
+
+    callColor ():void {
+        console.log(this.color);
+    }
+}
+
+const vehicle = new Vehicle();
+vehicle.callColor()
+console.log(vehicle.redColor)
+
+```
+
+
+Example2: In this example we are using constructor function: we need constructor function when we need to pass a parameter to the class instance.
+
+<strong>You can only once initialize a field inside the class, either in constructor function or outside of it.</strong>
+
+```typescript
+class Vehicle {
+    color:string;
+
+    constructor(color: string) {
+        this.color = color
+    }
+
+    callColor ():void {
+        console.log(this.color)
+    }
+}
+
+const vehicle = new Vehicle ("red")
+vehicle.callColor()
+```
+
+Here is a shortcut to automate the entire process of constructor function and class filed initialization. The above and below codes are 100% equivalent.
+
+
+```typescript
+class Vehicle {
+    constructor(public color: string) {}
+
+    callColor ():void {
+        console.log(this.color)
+    }
+}
+
+const vehicle = new Vehicle ("red")
+vehicle.callColor()
+```
+
+
+Example3: Fields inheritance
+
+```typescript
+class Vehicle {
+    constructor(public color: string) {
+    }
+
+    callColor ():void {
+        console.log(this.color)
+    }
+}
+
+const vehicle = new Vehicle ("red")
+vehicle.callColor()
+
+
+
+class Car extends Vehicle {
+    constructor(public wheel: number, color: string) {
+        super(color);
+    }
+
+    callWheel ():void {
+        console.log(this.wheel)
+    }
+}
+
+const car = new Car(4, "green")
+car.callColor()
+car.callWheel()
+```
+
+We didn't not used `public` with color because it is inherited from `Vehicle`, otherwise we could use `public` instead like for the `wheel`
+
+### Where TO Use Classes
+Interfaces + Classes === Get really strong code reuse in TS
