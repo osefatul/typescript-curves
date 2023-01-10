@@ -391,8 +391,10 @@ const pepsi: [string, boolean, number] = ["brown", true, 40]
 ```
 
 
-### Type Alias
+## Type Alias
 In order to minimize the effort of re-writing the types for an array, objects or tuples we can write type alias once and then annotate that to the corresponding object or tuple.
+
+<strong>Example:</strong>
 
 ```typescript
 //type alias
@@ -402,6 +404,64 @@ const pepsi: Drink = ["brown", true, 40]
 const coke: Drink = ["brown", false, 30]
 const tea: Drink = ["green", false, 0]
 ```
+
+<strong>Example2: Using an object </strong>
+
+```typescript
+type User = {
+    name: String;
+    age: number;
+    address?: String; //either string | undefined
+}
+
+const user: User = {
+    name: "John",
+    age: 30,
+    address: "Main Street",
+}
+```
+
+<strong>Example3:</strong>
+
+Using the `&` symbol you can extend or inherit an existing type and syntax-  it is like using `extends` to inherit classes. `implements` is used to add type to the class.
+
+```typescript
+type Animal = {
+    name:string
+}
+
+type Herbivore = Animal & {
+    consumePlant(plant: string):string
+}
+
+class Cow implements Herbivore {
+    name = "Cow";
+
+    consumePlane(plane:string) =>{
+        return `${plane} waste`
+    }
+}
+
+const cow = new Cow();
+cow.consumePlane("grass")
+
+```
+<p>
+In this example we take a base `type`, `Animal` and then extend it with `Herbivore` and add another attribute. From there we can see that creating a class that `implements` that type can provide values to them and then an instance of the class can utilize those attributes.
+</p>
+
+
+<strong>Example4:</strong>
+Union types can only be achieved with the type keyword: In this example we are taking two different types and creating a combination of both. This is called a union type and can be used to have more checks around valid values and shapes you utilize.
+
+```typescript
+type Fruit = "Apples" | "Mango" | "Orange"
+type Vegetable = "Broccoli" | "Eggplant" | "Lettuce"
+
+type HealthyFood = Fruit | Vegetable
+```
+
+<strong>You cannot use `implements` on a class with a type if you use a union operator |within your type definition.</strong>
 
 ## Interfaces
 It creates a new type, (like string, boolean and number and object), describing the property names and value types of an object. We also can call it a custom data type.
@@ -573,10 +633,65 @@ printSummary(oldCivics)
 printSummary(drink)
 
 ```
-
 We demonstrated in the above code how to use interface in a more generic terms as a reusable code syntax.
 
-### General Strategy for Reusable Code in TS
+
+### Difference Between Interface vs Type
+Type aliases and interfaces are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable.
+
+<strong>Example:</strong>
+
+In this example we start with an `Animal` interface and build upon that to create a new `interface` for a `Herbivore`. `Herbivore` has a `consumePlant` function and that is all `implemented` by the `Cow` class.
+
+```typescript
+interface Animal {
+    name: string
+}
+
+interface Herbivore extends Animal {
+    consumePlant(plant:string):string
+}
+
+class Cow implements Herbivore {
+    name = "Cow";
+
+    consumePlant(plant:string){
+        return `${plant} waste`
+    }
+}
+
+const cow = new Cow();
+cow.consumePlant("grass");
+
+```
+
+Earlier I mentioned `declaration merging: adding new properties` and that you could only do this using an interface. Here is an example of exactly that.
+
+```typescript
+interface Animal {
+    name: string
+}
+
+interface Herbivore extends Animal {
+    consumePlant(plant:string):string
+}
+
+class Cow implements Herbivore {
+    name = "Cow";
+    scientificName = "Bos Taurus";
+    consumePlant(plant:string){
+        return `${plant} waste`
+    }
+}
+
+const cow = new Cow();
+cow.scientificName
+cow.consumePlant("grass");
+
+```
+
+
+## General Strategy for Reusable Code in TS
 * Create functions that accept arguments that are typed with interfaces.
 * Objects/Classes can decide to 'implement' a given interface to work with a function.
 
