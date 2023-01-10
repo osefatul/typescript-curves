@@ -798,5 +798,12 @@ car.callWheel()
 
 We didn't not used `public` with color because it is inherited from `Vehicle`, otherwise we could use `public` instead like for the `wheel`
 
-### Where TO Use Classes
+### Where To Use Classes
 Interfaces + Classes === Get really strong code reuse in TS
+
+## Tool To Help Us Run TS in The Browser
+- `npm install -g parcel-bundler`
+- To run index.html file having TS file in the script use `parcel index.html`
+
+## Type Definition Files
+TS is nothing but a JS with types. But, when using an external library in TS environment you need to include a type definition file for the library because TS wants to know the type of the fields(variables) and the return type of methods(functions). Nowadays most libraries come with a type definition file, however sometimes some libraries they don't. In that case we need to look up the type definition file of that library in the npm package directory/website: `@type/{library-name} -> @type/faker`
