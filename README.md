@@ -959,7 +959,6 @@ class Car extends Vehicle {
         console.log(this.wheel)
     }
 }
-
 const car = new Car(4, "green")
 car.callColor()
 car.callWheel()
@@ -967,7 +966,7 @@ car.callWheel()
 
 We didn't not used `public` with color because it is inherited from `Vehicle`, otherwise we could use `public` instead like for the `wheel`
 
-### Where To Use Classes
+### Where to Use Classes
 Interfaces + Classes === Get really strong code reuse in TS
 
 ## Tool To Help Us Run TS in The Browser
