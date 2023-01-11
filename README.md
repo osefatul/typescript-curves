@@ -465,8 +465,8 @@ type HealthyFood = Fruit | Vegetable
 
 ## Interfaces
 It creates a new type, (like string, boolean and number and object), describing the property names and value types of an object. We also can call it a custom data type.
-
-suppose we have an object called oldCivic and a function called printVehicle:
+ 
+Example1: Suppose we have an object called oldCivic and a function called printVehicle:
 
 ```typescript
 const oldCivic = {
@@ -508,7 +508,7 @@ const printVehicle = (vehicle: Vehicle):void =>{
 printVehicle(oldCivic)
 ```
 
-Example: In this example we show how can we use function inside the interface.
+So, here in this example we show how can we use function inside the interface.
 ```typescript
 interface Vehicle {
     name:string;
@@ -538,7 +538,7 @@ const printVehicle = (vehicle: Vehicle):void =>{
 printVehicle(oldCivic)
 ```
 
-Example: What if we only have use `summary()` in interface:
+- What if we only have use `summary()` in interface:
 
 ```typescript
 interface Vehicle {
@@ -633,13 +633,64 @@ printSummary(oldCivics)
 printSummary(drink)
 
 ```
-We demonstrated in the above code how to use interface in a more generic terms as a reusable code syntax.
 
+Example2: Create multiple `interface`s which are `Transaction` and `BankAccount`
 
-### Difference Between Interface vs Type
-Type aliases and interfaces are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable.
+```typescript
+interface Transaction {
+    payerAccountNumber: number;
+    payeeAccountNumber: number;
+}
 
-<strong>Example:</strong>
+interface BankAccount {
+    accountNumber: number;
+    accountHolder: string;
+    balance: number;
+    isActive: boolean;
+    transaction: Transaction [] //array of transaction
+}
+
+const transaction1:Transaction = {
+    payerAccountNumber: 2365,
+    payeeAccountNumber: 23423
+}
+
+const transaction2:Transaction = {
+    payerAccountNumber: 25656,
+    payeeAccountNumber: 23554
+}
+
+const bankAccount:BankAccount = {
+    accountNumber: 2233,
+    accountHolder: "Andrew",
+    balance: 2003,
+    isActive: true,
+    transaction: [transaction1, transaction2]
+}
+```
+
+#### Merging In Interface
+`declaration merging: adding new properties` and that you could only do this using an interface. Here is an example of exactly that.
+
+```typescript
+interface Book{
+    title: string;
+    price: number;
+}
+
+interface Book {
+    volume: number;
+}
+
+const book:Book ={
+    title: "LOTR",
+    price: 85,
+    volume: 1
+}
+```
+Interface has the power to merge both above `Book` types.
+
+<strong>Example: Class implements using Interface</strong>
 
 In this example we start with an `Animal` interface and build upon that to create a new `interface` for a `Herbivore`. `Herbivore` has a `consumePlant` function and that is all `implemented` by the `Cow` class.
 
@@ -659,13 +710,11 @@ class Cow implements Herbivore {
         return `${plant} waste`
     }
 }
-
 const cow = new Cow();
 cow.consumePlant("grass");
 
 ```
-
-Earlier I mentioned `declaration merging: adding new properties` and that you could only do this using an interface. Here is an example of exactly that.
+Example: we can add fields that are not mentioned in `interfaces` with the power of `implements`
 
 ```typescript
 interface Animal {
@@ -689,6 +738,11 @@ cow.scientificName
 cow.consumePlant("grass");
 
 ```
+We demonstrated in the above codes how to use interface in a more generic terms as a reusable code syntax.
+
+
+### Difference Between Interface vs Type
+`Type aliases` and `interfaces` are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable.
 
 
 ## General Strategy for Reusable Code in TS
