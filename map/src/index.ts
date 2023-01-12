@@ -59,4 +59,5 @@ const players: Player[] = [
     {name: "Julian", age:60},
 ]
 
-console.log(getOldestAge(players))
+console.log(getOldestAge(players).age)
+console.log(getOldestAge(players).name)

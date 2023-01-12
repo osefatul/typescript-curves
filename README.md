@@ -1076,7 +1076,8 @@ const players: Player[] = [
     {name: "Julian", age:60},
 ]
 
-getOldestAge(players)
+getOldestAge(players.age)// OK
+getOldestAge(players.name)//NOT OK: getOldestAge doesn't recognize .name property 
 ```
 In the above example, TS only knows that the getOldestAge function only returns the age property of the players and it does not recognize the number properties of the players. Why? Because the getOldestAge function is contracted with `hasAge` interface which has only one property - age.
 
