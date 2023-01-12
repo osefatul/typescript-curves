@@ -1005,7 +1005,7 @@ function logNumber (arg:number){
     return arg;
 }
 
-//if the type is any then what's the point of using TS?
+//If the type is any then what's the point of using TS?
 function logArray (arg: any[]){
     console.log(arg);
     return arg;
@@ -1031,6 +1031,54 @@ longAnything(["a", "b"]) //inferred string[];
 - `T` We can write anything instead of it... it doesn't matter - as long as it is used in the `<>`.
 
 So, with using **Generic** we got rid of repetitive tasks and functions...
+
+Example:
+
+```typescript
+interface hasAge {
+    age: number;
+}
+
+//even if i don't write the return TS will infer the age...
+function getOldestAge(people: hasAge[]) {
+    return people.sort((a, b) => b.age - a.age)[0]
+}
+const people = [{age:30}, {age:40}, {age:50}];
+getOldestAge(people)// on hover TS knows that people has an object of age properties.
+
+```
+
+In the above example TS knows that people has an object of age properties which if you look at it, it is pretty straightforward. But let's say that we have another array of an object that has age and name properties, and the interface we use for that array is of `player` - 
+
+
+```typescript
+interface hasAge {
+    age: number;
+}
+
+//even if i don't write the return TS will infer the age...
+function getOldestAge(people: hasAge[]) {
+    return people.sort((a, b) => b.age - a.age)[0]
+}
+const people = [{age:30}, {age:40}, {age:50}];
+getOldestAge(people)// on hover TS knows that people has an object of age properties.
+
+
+
+interface Player {
+    name: string;
+    age: number;
+}
+
+const players: Player[] = [
+    {name: 'John', age:30},
+    {name: "Mike", age:40},
+    {name: "Julian", age:60},
+]
+
+getOldestAge(players)
+```
+In the above example, TS only knows that the getOldestAge function only returns the age property of the players and it does not recognize the number properties of the players. Why? Because the getOldestAge function is contracted with `hasAge` interface which has only one property - age.
 
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`

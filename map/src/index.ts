@@ -35,9 +35,28 @@ const map = new google.maps.Map(
 
 
 
-function logArray <T> (arg: T):T {
-    console.log(arg);
-    return arg;
+interface hasAge {
+    age: number;
 }
 
-logArray(["sf", "123ds"])
+function getOldestAge(people: hasAge[]) {
+    return people.sort((a, b) => b.age - a.age)[0]
+}
+const people = [{age:30}, {age:40}, {age:50}];
+
+console.log(getOldestAge(people))
+
+
+
+interface Player {
+    name: string;
+    age: number;
+}
+
+const players: Player[] = [
+    {name: 'John', age:30},
+    {name: "Mike", age:40},
+    {name: "Julian", age:60},
+]
+
+console.log(getOldestAge(players))
