@@ -1096,6 +1096,8 @@ interface HasAge {
     age: number;
 }
 
+
+//if we don't extend HasAge the placeholder won't understand if it has age property or not.
 function getOldestAge <T extends HasAge> (people: T[]): T {
     return people.sort((a, b) => b.age - a.age)[0]
 }

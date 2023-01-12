@@ -35,11 +35,11 @@ const map = new google.maps.Map(
 
 
 
-interface hasAge {
+interface HasAge {
     age: number;
 }
 
-function getOldestAge <T extends> (T: hasAge[]):T {
+function getOldestAge <T extends HasAge> (people: T[]):T {
     return people.sort((a, b) => b.age - a.age)[0]
 }
 const people = [{age:30}, {age:40}, {age:50}];
