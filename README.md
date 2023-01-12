@@ -1076,10 +1076,41 @@ const players: Player[] = [
     {name: "Julian", age:60},
 ]
 
-getOldestAge(players.age)// OK
-getOldestAge(players.name)//NOT OK: getOldestAge doesn't recognize .name property 
+getOldestAge(players).age// OK
+getOldestAge(players).name//NOT OK: getOldestAge doesn't recognize .name property 
 ```
 In the above example, TS only knows that the getOldestAge function only returns the age property of the players and it does not recognize the number properties of the players. Why? Because the getOldestAge function is contracted with `hasAge` interface which has only one property - age.
+
+**So, What is the solution?**
+We can use `assertion`
+
+```typescript
+getOldestAge(players) as Player
+```
+but that is no the ideal solution!
+
+**The ideal solution is using `Generic` as such**
+
+```typescript
+interface HasAge {
+    age: number;
+}
+
+function getOldestAge <T extends HasAge> (people: T): T {
+    return people.sort((a, b) => b.age - a.age)[0]
+}
+const people = [{age:30}, {age:40}, {age:50}];
+getOldestAge(people)
+
+
+
+
+interface Player {
+    name: string;
+    age: number;
+}
+```
+
 
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`
