@@ -39,7 +39,7 @@ interface hasAge {
     age: number;
 }
 
-function getOldestAge(people: hasAge[]) {
+function getOldestAge <T extends> (T: hasAge[]):T {
     return people.sort((a, b) => b.age - a.age)[0]
 }
 const people = [{age:30}, {age:40}, {age:50}];

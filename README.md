@@ -1096,10 +1096,12 @@ interface HasAge {
     age: number;
 }
 
-function getOldestAge <T extends HasAge> (people: T): T {
+function getOldestAge <T extends HasAge> (people: T[]): T {
     return people.sort((a, b) => b.age - a.age)[0]
 }
 const people = [{age:30}, {age:40}, {age:50}];
+
+//function getOldestAge<{age: number;}>(people: {age: number;}[]): {age: number;}
 getOldestAge(people)
 
 
@@ -1109,7 +1111,18 @@ interface Player {
     name: string;
     age: number;
 }
+const players: Player[] = [
+    {name: 'John', age:30},
+    {name: "Mike", age:40},
+    {name: "Julian", age:60},
+]
+
+//function getOldestAge<Player>(people: Player[]): Player
+getOldestAge(players).age
+getOldestAge(players).name
 ```
+
+Using `Generic` solved our problem, if we pass `people` in `getOldestAge` the syntax for the type will be used of `HasAge` interface. If we pass `players` in `getOldestAge` the syntax for type will be used of `Player` interface.
 
 
 ## Tool To Help Us Run TS in The Browser
