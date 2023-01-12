@@ -34,30 +34,36 @@ const map = new google.maps.Map(
 
 
 
+interface IPost {
+    id: number;
+    post:string;
+    title: string;
+}
 
-interface HasAge {
+//return an array of IPost which is promise
+const fetchPostData = async (path: string): Promise<IPost[]> => {
+    const res = await fetch(`http://example.com${path}`);
+    return res.json()
+}
+
+
+
+interface IUser {
+    id: number;
+    name:string;
     age: number;
 }
 
-function getOldestAge <T extends HasAge> (people: T[]):T {
-    return people.sort((a, b) => b.age - a.age)[0]
-}
-const people = [{age:30}, {age:40}, {age:50}];
-
-console.log(getOldestAge(people))
-
-
-
-interface Player {
-    name: string;
-    age: number;
+//return an array of IPost which is promise
+const fetchUserData = async <ResultType> (path: string): Promise<ResultType> => {
+    const res = await fetch(`http://example.com${path}`);
+    return res.json()
 }
 
-const players: Player[] = [
-    {name: 'John', age:30},
-    {name: "Mike", age:40},
-    {name: "Julian", age:60},
-]
+(async ()=>{
+    const posts = await fetchUserData<IPost []>("/posts");
+    posts[0]
 
-console.log(getOldestAge(players).age)
-console.log(getOldestAge(players).name)
+    const users = await fetchUserData<IUser []>("/users");
+    users[0]
+})

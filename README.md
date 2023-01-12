@@ -1087,7 +1087,7 @@ We can use `assertion`
 ```typescript
 getOldestAge(players) as Player
 ```
-but that is no the ideal solution!
+but that is not the ideal solution!
 
 **The ideal solution is using `Generic` as such**
 
@@ -1127,6 +1127,82 @@ getOldestAge(players).name
 Using `Generic` solved our problem, if we pass `people` in `getOldestAge` the syntax for the type will be used of `HasAge` interface. If we pass `players` in `getOldestAge` the syntax for type will be used of `Player` interface.
 
 
+**Example:2**
+Fetching data from APIs
+
+```typescript
+interface IPost {
+    id: number;
+    post:string;
+    title: string;
+}
+
+//return an array of IPost which is promise
+const fetchPostData = async (path: string): Promise<IPost[]> => {
+    const res = await fetch(`http://example.com${path}`);
+    return res.json()
+}
+
+
+
+interface IUser {
+    id: number;
+    name:string;
+    age: number;
+}
+
+//return an array of IPost which is promise
+const fetchUserData = async (path: string): Promise<IUser[]> => {
+    const res = await fetch(`http://example.com${path}`);
+    return res.json()
+}
+
+
+//Anonymous Function
+(async ()=>{
+    const posts = await fetchUserData("/posts");
+    posts[0]//can show inside the posts types
+
+    const users = await fetchUserData("/users");
+    users[0] //can show inside the users types
+})
+```
+In the above example the return promise `Promise<IPost[]>` or `Promise<IUser[]>` is inbuilt and it is actually also a `Generic`, and that's how we type the `Promise` in TS. There is one issue that there is repetition and we want to take advantage of `generic` to remove duplications and also be able to provide us with the types if interfaces.
+
+
+```typescript
+//return an array of IPost which is promise
+
+const fetchData = async <ResultType> (path: string): Promise<ResultType> => {
+    const res = await fetch(`http://example.com${path}`);
+    return res.json()
+}
+
+interface IPost {
+    id: number;
+    post:string;
+    title: string;
+}
+
+
+interface IUser {
+    id: number;
+    name:string;
+    age: number;
+}
+
+
+(async ()=>{
+    //const fetchUserData: <IPost[]>(path: string) => Promise<IPost[]>
+    const posts = await fetchData<IPost []>("/posts");
+    posts[0]
+
+    //const fetchUserData: <IUser[]>(path: string) => Promise<IUser[]>
+    const users = await fetchData<IUser []>("/users");
+    users[0]
+})
+```
+In the above code, `fetchData<IPost []> or fetchData<IUser []>` is used to pass `IPost` or `IUser` interface to `fetchData` and it would be passed as `ResultType` type
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`
 - To run index.html file having TS file in the script use `parcel index.html`
