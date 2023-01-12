@@ -32,31 +32,12 @@ const map = new google.maps.Map(
 );
 
 
-console.log(map)
 
 
 
-
-
-
-
-
-interface Animal {
-    name: string
+function logArray <T> (arg: T):T {
+    console.log(arg);
+    return arg;
 }
 
-interface Herbivore extends Animal {
-    consumePlant(plant:string):string
-}
-
-class Cow implements Herbivore {
-    name = "Cow";
-    scientificName = "Bos Taurus";
-    consumePlant(plant:string){
-        return `${plant} waste`
-    }
-}
-
-const cow = new Cow();
-console.log(cow.consumePlant("grass"))
-console.log(cow.scientificName)
+logArray(["sf", "123ds"])

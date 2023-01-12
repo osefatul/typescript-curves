@@ -669,27 +669,6 @@ const bankAccount:BankAccount = {
 }
 ```
 
-#### Merging In Interface
-`declaration merging: adding new properties` and that you could only do this using an interface. Here is an example of exactly that.
-
-```typescript
-interface Book{
-    title: string;
-    price: number;
-}
-
-interface Book {
-    volume: number;
-}
-
-const book:Book ={
-    title: "LOTR",
-    price: 85,
-    volume: 1
-}
-```
-Interface has the power to merge both above `Book` types.
-
 <strong>Example: Class implements using Interface</strong>
 
 In this example we start with an `Animal` interface and build upon that to create a new `interface` for a `Herbivore`. `Herbivore` has a `consumePlant` function and that is all `implemented` by the `Cow` class.
@@ -742,8 +721,47 @@ We demonstrated in the above codes how to use interface in a more generic terms 
 
 
 ### Difference Between Interface vs Type
-`Type aliases` and `interfaces` are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable.
+`Type aliases` and `interfaces` are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable. for
+example:
 
+#### Merging In Interface
+`declaration merging: adding new properties` and that you could only do this using an interface. Here is an example of exactly that.
+
+```typescript
+interface Book{
+    title: string;
+    price: number;
+}
+
+interface Book {
+    volume: number;
+}
+
+const book:Book ={
+    title: "LOTR",
+    price: 85,
+    volume: 1
+}
+```
+Interface has the power to merge both above `Book` types. but if I try to merge `type` It won't work.
+```typescript
+type Book = {
+    title: string;
+    price: number;
+}
+
+//error message
+type Book = {
+    volume: number;
+}
+
+const book:Book ={
+    title: "LOTR",
+    price: 85,
+    volume: 1
+} 
+```
+the above code will give an error..
 
 ## General Strategy for Reusable Code in TS
 * Create functions that accept arguments that are typed with interfaces.
@@ -967,7 +985,52 @@ car.callWheel()
 We didn't not used `public` with color because it is inherited from `Vehicle`, otherwise we could use `public` instead like for the `wheel`
 
 ### Where to Use Classes
-Interfaces + Classes === Get really strong code reuse in TS
+Interfaces + Classes === Get really strong code reuse in TS.
+
+
+## Generic
+
+Generics, is TS's tool that is being able to create a component that can work over a variety of types rather than a single one. This allows users to consume these components and use their own types.
+
+Go through the below example and find what's wrong with the code!
+
+```typescript
+function logString (arg:string){
+    console.log(arg);
+    return arg;
+}
+
+function logNumber (arg:number){
+    console.log(arg);
+    return arg;
+}
+
+//if the type is any then what's the point of using TS?
+function logArray (arg: any[]){
+    console.log(arg);
+    return arg;
+}
+```
+**As you might notice, we are using same functionality for three different types, but, the programming rule is that do not repeat yourself. So, how can we take advantage of typescript in order to integrate all of types into a single function where it can be used for multiple types - and thats where, we will be using **Generic**. **
+
+Let's use generic in the above example:
+
+```typescript
+function logArray <T> (arg: T):T {
+    console.log(arg);
+    return arg;
+}
+
+logAnything([1,2,3,4,]) //inferred number[];
+longAnything(["a", "b"]) //inferred string[];
+.
+.
+
+```
+- `<>` This is nothing but a placeholder-
+- `T` We can write anything instead of it... it doesn't matter - as long as it is used in the `<>`.
+
+So, with using **Generic** we got rid of repetitive tasks and functions...
 
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`
