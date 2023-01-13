@@ -1202,7 +1202,40 @@ interface IUser {
     users[0]
 })
 ```
-In the above code, `fetchData<IPost []> or fetchData<IUser []>` is used to pass `IPost` or `IUser` interface to `fetchData` and it would be passed as `ResultType` type
+In the above code, `fetchData<IPost []> or fetchData<IUser []>` is used to pass `IPost` or `IUser` interface to `fetchData` and it would be passed as `ResultType` type.
+
+
+## Structural typing / Duck typing
+
+If you go through the below example, you will notice that `user` object is not assigned `ICredentials` type, but still when `user` has been passed to `login` TS infer it as if `ICredentials` has been assigned:
+`const login: (credentials: ICredentials) => boolean`
+
+```typescript
+interface ICredentials {
+    username: string;
+    password: string;
+}
+
+const login = (credentials: ICredentials):boolean =>{
+    console.log(credentials);
+    return true;
+}
+
+//interface is not assigned to user -> user:ICredentials
+const user = {
+    username: "WDKStudio",
+    password: "password",
+    isAdmin: true,
+}
+
+login(user)
+```
+
+Why does that happen? It is because when the `interface` and object shape are similar, then TS inferred it as same type objects. In our case `user` and `ICredentials` have same shape (are having same properties) then it would be inferred as same type objects and we call that `Structural typing`
+
+## Typescript Configuration
+ - Create a config file by `tsc --init`
+
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`
 - To run index.html file having TS file in the script use `parcel index.html`

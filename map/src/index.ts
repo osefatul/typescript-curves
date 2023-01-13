@@ -1,13 +1,13 @@
 /// <reference types="@types/google.maps" />
-import { User } from "./User";
-import { Company } from "./Company";
+// import { User } from "./User";
+// import { Company } from "./Company";
 
-const user = new User();
-const company = new Company();
+// const user = new User();
+// const company = new Company();
 
-console.log(user)
-console.log(company)
-const lulu = { lat: -25.344, lng: 131.031 };
+// console.log(user)
+// console.log(company)
+// const lulu = { lat: -25.344, lng: 131.031 };
 
 // const div = document.createElement("div") as HTMLElement;
 // div.style.backgroundColor = "black";
@@ -23,47 +23,34 @@ const lulu = { lat: -25.344, lng: 131.031 };
 // const map =  document.getElementById("map") as HTMLElement;
 
 
-const map = new google.maps.Map(
-    document.getElementById("map") as HTMLElement,
-    {
-        zoom: 4,
-        center: lulu,
-    }
-);
+// const map = new google.maps.Map(
+//     document.getElementById("map") as HTMLElement,
+//     {
+//         zoom: 4,
+//         center: lulu,
+//     }
+// );
 
 
 
 
-interface IPost {
-    id: number;
-    post:string;
-    title: string;
-}
-
-//return an array of IPost which is promise
-const fetchPostData = async (path: string): Promise<IPost[]> => {
-    const res = await fetch(`http://example.com${path}`);
-    return res.json()
+interface ICredentials {
+    username: string;
+    password: string;
+    isAdmin?: boolean;
 }
 
 
-
-interface IUser {
-    id: number;
-    name:string;
-    age: number;
+const login = (credentials: ICredentials):boolean =>{
+    console.log(credentials);
+    return true;
 }
 
-//return an array of IPost which is promise
-const fetchUserData = async <ResultType> (path: string): Promise<ResultType> => {
-    const res = await fetch(`http://example.com${path}`);
-    return res.json()
+
+const user = {
+    username: "WDKStudio",
+    password: "password",
+    isAdmin: true,
 }
 
-(async ()=>{
-    const posts = await fetchUserData<IPost []>("/posts");
-    posts[0]
-
-    const users = await fetchUserData<IUser []>("/users");
-    users[0]
-})
+login(user)
