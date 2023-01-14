@@ -1235,6 +1235,10 @@ Why does that happen? It is because when the `interface` and object shape are si
 
 ## Typescript Configuration
  - Create a config file by `tsc --init`
+ - In the `tsconfig.json` file, you can include files or folders to be compiled.
+
+## TypeScript in React
+
 
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`
