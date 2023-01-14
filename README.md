@@ -1238,7 +1238,85 @@ Why does that happen? It is because when the `interface` and object shape are si
  - In the `tsconfig.json` file, you can include files or folders to be compiled.
 
 ## TypeScript in React
+**/// <reference types="react-scripts" />**
+Using above line in `react-app-env.d.ts` file is a reference to the type definitions for the react-scripts package. This allows the TypeScript compiler to understand the types used in the package and provide better type checking and code completion for developers using the package in their project. It is commonly found at the top of .ts or .tsx files in a project that was created with create-react-app, which uses react-scripts as a development dependency.
 
+example: 
+
+```typescript
+
+export interface IProduct {
+  id:number;
+  title:string;
+  price:number;
+}
+
+
+function App() {
+  
+  const [products, setProducts] = useState<IProduct[]>([
+    {
+      id:1,
+      title: "Iphone",
+      price:3000,
+    },
+    {
+      id:2,
+      title: "Iphone2",
+      price:3000
+    },
+    {
+      id:3,
+      title: "Iphone2",
+      price:3000
+    }
+  ])
+  
+
+  const handleAddToCart = (id: number) => {
+    console.log(id)
+  }
+
+  return (
+    <div>
+      {
+        products.map(product => (
+          <Product key={product.id} product={product} handleAddToCart={handleAddToCart}/>
+        ))
+      }
+    </div>
+  );
+}
+
+export default App;
+```
+
+and here is the `Product.tsx`
+
+```typescript
+import React from 'react'
+import {IProduct} from "../App"
+
+interface ProductProp {
+    product: IProduct;
+    handleAddToCart (id: number): void;
+}
+
+function Product({product, handleAddToCart}: ProductProp) {
+    return (
+        <div style={{display:"flex", gap:"10px", alignItems:"center", justifyContent:"center"}}>
+            <p>{product.id}</p>
+            <button onClick={() => handleAddToCart(product.id)}>
+                Add to Cart
+            </button>
+        </div>
+    )
+}
+
+export default Product
+```
+
+In the example above, we have used `generic` with `useState` and also learnt how to use `interface` with props
 
 ## Tool To Help Us Run TS in The Browser
 - `npm install -g parcel-bundler`
