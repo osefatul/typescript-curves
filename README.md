@@ -1321,10 +1321,6 @@ In the example above, we have used `generic` with `useState` and also learnt how
 ## Typescript in node.js
 - Create a `package.json` file using `npm init -y`
 - To install typescript  in the package write `npm install --save-dev typescript`
-
-## Tool To Help Us Run TS in The Browser
-- `npm install -g parcel-bundler`
-- To run index.html file having TS file in the script use `parcel index.html`.
 - Install `tsconfig` file using `npx tsc --init` - in order to tell typescript how to behave.
 - `npm i express`
 - `npm i --save-dev @types/express`
@@ -1373,6 +1369,11 @@ In the example above, we have used `generic` with `useState` and also learnt how
 ```
 to run the `lint` script -> `npm run lint`.
 - Install `ESlint` extension on VSCode to check before running the script.
+
+
+## Tool To Help Us Run TS in The Browser
+- `npm install -g parcel-bundler`
+- To run index.html file having TS file in the script use `parcel index.html`.
 
 ## Type Definition Files
 TS is nothing but a JS with types. But, when using an external library in TS environment you need to include a type definition file for the library because TS wants to know the type of the fields(variables) and the return type of methods(functions). Nowadays most libraries come with a type definition file, however sometimes some libraries they don't. In that case we need to look up the type definition file of that library in the npm package directory/website: `@type/{library-name} -> @type/faker`
