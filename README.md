@@ -1328,6 +1328,51 @@ In the example above, we have used `generic` with `useState` and also learnt how
 - Install `tsconfig` file using `npx tsc --init` - in order to tell typescript how to behave.
 - `npm i express`
 - `npm i --save-dev @types/express`
+- go to `tsconfig.json` file and uncomment the `outDir` and the value should be `./dist`
+- `npm i nodemon` for automatically compiling node files.
+- `npm i -D ts-node` for automatically compiling ts files. 
+- Normally to run `server.ts` file - use `npx tsc` so it can compile it to js. and then we run the js file using `node server.js`.
+- But here, we don't use the above syntax. We will be using `ts-node` instead.
+- To run `server.ts` file on the fly like we did with nodesj (`nodemon server.js`), Now here in TS we use `npx nodemon src/server.ts`.
+- use script for the above syntax: 
+
+```typescript
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.15",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}
+
+```
+- install `npx eslint --init`: used te check code problems.
+- to run eslint -> `npx eslint . --ext .ts` -> let's added it as script:
+
+```typescript
+ "scripts": {
+    "start": "nodemon src/server.ts",
+    "lint": "eslint . --ext .ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+```
+to run the `lint` script -> `npm run lint`.
+- Install `ESlint` extension on VSCode to check before running the script.
 
 ## Type Definition Files
 TS is nothing but a JS with types. But, when using an external library in TS environment you need to include a type definition file for the library because TS wants to know the type of the fields(variables) and the return type of methods(functions). Nowadays most libraries come with a type definition file, however sometimes some libraries they don't. In that case we need to look up the type definition file of that library in the npm package directory/website: `@type/{library-name} -> @type/faker`
