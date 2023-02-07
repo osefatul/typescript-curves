@@ -1,5 +1,6 @@
 # Typescript
 Let's first understand what type is.
+
 ### Type:
 Type is an easy way to refer to different properties + functions the value has. and value is anything we can assign to a variable, eg: strings, numbers, booleans... etc.
 ### Interface:
@@ -308,6 +309,7 @@ The difference of array between JS and TS is that in TS elements in array has co
 
 
 <p>This will infer the array type</p>
+
 ```typescript
 const carMakers = ['ford', 'tesla', 'toyota']
 ```
@@ -320,10 +322,18 @@ const carMakers = [];
 so to avoid `any` type, make sure you assign type to array.
 
 ```typescript
-const carMakers: string[] = []
-
+let carMakers: string[] = [];
 //or
-const carMakers: string[][] =[];
+let carMakers: Array<string>;// we call this generic which we will learn later.
+carMakers = ["ford", "tesla"]
+```
+
+to type array of arrays...
+```typescript
+let carMakers: string[][] =[];
+// or
+let carMakers: Array<string[]>;// we call this generic which we will learn later.
+carMakers = [["ford"], ["tesla"]]
 ```
 
 
